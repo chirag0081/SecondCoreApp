@@ -89,7 +89,7 @@ namespace SecondCoreApp.Controllers
                 {
                     if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("ListUsers", "Administrator");
+                        return RedirectToAction("ListUsers", "Administration");
                     }
 
 
