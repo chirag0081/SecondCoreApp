@@ -92,6 +92,7 @@ namespace SecondCoreApp.Controllers
                         return RedirectToAction("ListUsers", "Administrator");
                     }
 
+
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
                 }
