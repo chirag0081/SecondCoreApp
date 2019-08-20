@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,17 +30,17 @@ namespace SecondCoreApp
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("EmployeeDBConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-            services.Configure<IdentityOptions>(options => 
+            services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
-                options.Password.RequireUppercase= false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric  = false;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             }
-            
+
             );
             services.AddMvc(options =>
             {
@@ -47,6 +48,10 @@ namespace SecondCoreApp
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,12 +68,26 @@ namespace SecondCoreApp
             }
 
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                if (!string.IsNullOrEmpty(_config["AppToRun"]) && _config["AppToRun"].ToUpper() == "ANGULAR")
+                    routes.MapRoute("default", "{controller=Home1}/{action=Index1}/{id?}");
+                else
+                    routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
 
             //app.UseMvcWithDefaultRoute();
             //app.Run(async (context) =>
