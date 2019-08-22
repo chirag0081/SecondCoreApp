@@ -47,6 +47,13 @@ namespace SecondCoreApp
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("DeleteRole", policy => policy.RequireClaim("Delete Role"));
+                option.AddPolicy("CreateRole", policy => policy.RequireClaim("Create Role"));
+                option.AddPolicy("EditRole", policy => policy.RequireClaim("Edit Role"));
+            });
+
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
             services.AddSpaStaticFiles(configuration =>
             {
