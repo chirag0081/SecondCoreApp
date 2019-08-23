@@ -30,7 +30,6 @@ namespace SecondCoreApp.Controllers
 
         public ViewResult Details(int? id)
         {
-            throw new Exception("Error Occured by user code");
             Employee employee = _employeeRepository.GetEmployee(id ?? 1);
             if (employee == null)
             {
