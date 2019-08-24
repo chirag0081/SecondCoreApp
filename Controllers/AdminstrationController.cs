@@ -11,7 +11,7 @@ using SecondCoreApp.ViewModels;
 
 namespace SecondCoreApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
