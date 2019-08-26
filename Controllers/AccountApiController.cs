@@ -25,26 +25,25 @@ namespace SecondCoreApp.Controllers
         }
 
         //[HttpPost]
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        public async Task<OkObjectResult> Login(string email,string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
+        //public async Task<OkObjectResult> Login(string email,string password,bool isRemember)
         {
             if (ModelState.IsValid)
             {
-                //var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                var result = await signInManager.PasswordSignInAsync(email, password, false, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);                
                 if (result.Succeeded)
                 {
-                    return Ok(result.Succeeded);
+                    return Ok(result);
 
                 }
 
                 ModelState.AddModelError("", "Invalid Login Attempt");
             }
 
-            return Ok(ModelState.IsValid);
+            return Ok(ModelState);
         }
 
     }

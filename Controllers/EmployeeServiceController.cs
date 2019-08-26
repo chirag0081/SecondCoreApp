@@ -12,7 +12,7 @@ namespace SecondCoreApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class EmployeeServiceController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

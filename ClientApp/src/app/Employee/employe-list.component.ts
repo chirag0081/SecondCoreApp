@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { IEmployee } from './employee';
 import { EmployeeService } from './employee.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-employe-list',
@@ -10,22 +11,18 @@ import { EmployeeService } from './employee.service';
 })
 export class EmployeListComponent implements OnInit {
   employees: IEmployee[];
-  constructor(private http: HttpClient, private employeeService: EmployeeService) {
-    
+  constructor(private http: HttpClient, private employeeService: EmployeeService, private router: Router) {
+
   }
 
   ngOnInit() {
-    //this.http.get<IEmployee[]>('/api/EmployeeService').subscribe(result => {
-    //  this.employees = result;
-    //  console.log(this.employees);
-
-    //}, error => console.error(error));
-
- 
-    this.employeeService.GetEmployees().subscribe(x => { this.employees = x; }
-        , error => { console.log(error); });
-    
-    
+    this.employeeService.GetEmployees().subscribe(x => { this.employees = x; }, error => {
+      if (error.ok == false && error.name == "HttpErrorResponse" && error.status == 200) {
+        this.router.navigate(['login']);
+      }
+      console.log(error);
+    });
   }
+
 
 }

@@ -1,27 +1,33 @@
 
 <div class="row">
   <div class="col-md-12">
-    <form method="post">
-      
-      <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" />
-        <span class="text-danger"></span>
+    <form method="post" #loginForm="ngForm" (ngSubmit)="OnLoginFormSubmit(loginForm)">
+      <div class="form-group" [class.has-error]="emailField.invalid && emailField.touched">
+        <label for="Email">Email</label>
+        <input type="text" name="Email" id="Email" required email class="form-control" [(ngModel)]="loginModel.Email" #emailField="ngModel" />
+        <span class="text-danger" *ngIf="emailField.errors?.required && emailField.touched">Email is required</span>
+        <span class="text-danger" *ngIf="emailField.errors?.email && emailField.touched">Please enter valid email address</span>
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" />
-        <span class="text-danger"></span>
+      <div class="form-group" [class.has-error]="passwordField.invalid && passwordField.touched">
+        <label for="Password">Password</label>
+        <input type="password" required name="password" id="Password" class="form-control" [(ngModel)]="loginModel.Password" #passwordField="ngModel" />
+        <span class="text-danger" *ngIf="passwordField.invalid && passwordField.touched">Password is required</span>
       </div>
       <div class="form-group">
         <div class="checkbox">
-          <label>
-            <input type="checkbox"  />
-              Remember Me
+          <label for="IsRemember">
+            <input type="checkbox" name="IsRemember" id="IsRemember" [(ngModel)]="loginModel.IsRemember" />
+            Remember Me
           </label>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
+
+      <div class="form-group" *ngIf="serverSideErrors != null" >
+        <span class="text-danger" *ngFor="let error of serverSideErrors">
+          {{error}}
+        </span>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.touched && loginForm.invalid">Login</button>
     </form>
   </div>
 </div>
