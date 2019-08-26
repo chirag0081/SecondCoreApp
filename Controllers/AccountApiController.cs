@@ -35,7 +35,7 @@ namespace SecondCoreApp.Controllers
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);                
                 if (result.Succeeded)
-                {
+                {                    
                     return Ok(result);
 
                 }

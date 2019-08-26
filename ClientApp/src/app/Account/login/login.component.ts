@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
   OnLoginFormSubmit(loginForm: NgForm): void {
     this.service.Login(this.loginModel).subscribe(x => {
       if (x.succeeded) {
+        localStorage.setItem('IsLoggedIn', "true");
+        this.service.isloggedin = false;
+        //localStorage.setItem('token', this.f.userid.value); 
         this.router.navigate(['list']);
       }
       else {

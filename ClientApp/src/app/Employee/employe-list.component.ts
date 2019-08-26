@@ -17,9 +17,9 @@ export class EmployeListComponent implements OnInit {
 
   ngOnInit() {
     this.employeeService.GetEmployees().subscribe(x => { this.employees = x; }, error => {
-      if (error.ok == false && error.name == "HttpErrorResponse" && error.status == 200) {
-        this.router.navigate(['login']);
-      }
+      //if (error.ok == false && error.name == "HttpErrorResponse" && error.status == 200) {
+      //  this.router.navigate(['login']);
+      //}
       console.log(error);
     });
   }
