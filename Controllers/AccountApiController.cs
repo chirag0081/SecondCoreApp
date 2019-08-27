@@ -24,12 +24,11 @@ namespace SecondCoreApp.Controllers
             this.signInManager = signInManager;
         }
 
-        //[HttpPost]
+        
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
-        //public async Task<OkObjectResult> Login(string email,string password,bool isRemember)
         {
             if (ModelState.IsValid)
             {
