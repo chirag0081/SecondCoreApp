@@ -24,13 +24,15 @@ export class LoginComponent implements OnInit {
       if (x.succeeded) {
         localStorage.setItem('IsLoggedIn', "true");
         this.service.isloggedin = false;
-        //localStorage.setItem('token', this.f.userid.value); 
+
         this.router.navigate(['list']);
       }
       else {
         for (var i = 0; i < x[""].errors.length; i++) {
           this.serverSideErrors.push(x[""].errors[i].errorMessage);
         }
+        localStorage.removeItem('IsLoggedIn');
+        this.service.isloggedin = true;
       }
     }, error => {
       console.log(error);

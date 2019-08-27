@@ -46,5 +46,13 @@ namespace SecondCoreApp.Controllers
             return Ok(ModelState);
         }
 
+        [HttpPost]
+        [Route("logout")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return Ok();
+        }
     }
 }

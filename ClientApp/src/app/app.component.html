@@ -47,6 +47,14 @@
             </a>
           </li>
         </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="!service.isloggedin">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" role="button" (click)="Logout();" >
+              Logout
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
     
