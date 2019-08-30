@@ -4,8 +4,10 @@
     <div class="card-header">
       <h3>{{employee.Name}}</h3>
     </div>
-    
-    <img class="card-img-top imageThumbnail"  src="/images/{{employee.PhotoPath ? employee.PhotoPath :'noimage.png'}}" asp-append-version="true" />
+
+    <div style="text-align:center;">
+      <img class="card-img-top imageThumbnail" style="width:250px;height:200px" src="/images/{{employee.PhotoPath ? employee.PhotoPath :'noimage.png'}}" asp-append-version="true" />
+    </div>
     <div class="card-footer text-center">
       <a  href="#"   class="btn btn-primary">View</a>
       <a  href="#"  class="btn btn-primary">Edit</a>

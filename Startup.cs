@@ -106,6 +106,8 @@ namespace SecondCoreApp
             //app.Run(async (context) =>
             //{
             //    await context.Response.WriteAsync(_config["MyKey"]);
+            //NPM commands:
+            //30-Aug-2019: npm install @angular/animations --save , npm install ngx-toastr --save
             //});
         }
     }
