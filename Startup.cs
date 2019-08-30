@@ -44,6 +44,16 @@ namespace SecondCoreApp
             }
 
             );
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -64,6 +74,7 @@ namespace SecondCoreApp
             });
             services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+             
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +94,7 @@ namespace SecondCoreApp
             app.UseSpaStaticFiles();
 
             app.UseAuthentication();
+            app.UseCors("CorsPolicy");
             app.UseMvc(routes =>
             {
                 if (!string.IsNullOrEmpty(_config["AppToRun"]) && _config["AppToRun"].ToUpper() == "ANGULAR")
