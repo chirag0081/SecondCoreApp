@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Login } from './login';
+import { User } from './user';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  isloggedin: boolean;
+  user: User;
+  
   constructor(private http: HttpClient) { }
 
   public Login(login: Login): Observable<any> {

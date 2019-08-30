@@ -24,25 +24,36 @@ namespace SecondCoreApp.Controllers
             this.signInManager = signInManager;
         }
 
-        
+
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            List<string> errors = new List<string>();
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);                
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
-                {                    
-                    return Ok(result);
+                {
+                    ApplicationUser user = await userManager.FindByEmailAsync(model.Email); 
+                    return Ok(new
+                    {
+                        succeeded = true,
+                        user = new { userName = user.UserName, email = user.Email, city = user.City }
+                    });
 
                 }
 
-                ModelState.AddModelError("", "Invalid Login Attempt");
+                errors.Add("Invalid Login Attempt");
             }
 
-            return Ok(ModelState);
+            //return Ok(ModelState);
+            return Ok(new
+            {
+                succeeded = false,
+                errors = errors
+            });
         }
 
         [HttpPost]

@@ -1,1 +1,41 @@
-<p>employe-create works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-success" style="display:none" *ngIf="empCreate.Id>0">
+      <strong>Success!</strong>  
+    </div>
+
+    <form method="post" enctype="multipart/form-data" #crateEmployeeForm="ngForm" (ngSubmit)="OnFormSubmit(crateEmployeeForm)">
+      <div class="form-group" [class.has-error]="empCreate.invalid && empCreate.touched">
+        <label for="Name">Name</label>
+        <input type="text" name="Name" id="Name" required class="form-control" [(ngModel)]="empCreate.Name" #nameField="ngModel" />
+        <span class="text-danger" *ngIf="nameField.errors?.required && nameField.touched">Name is required</span>
+      </div>
+      <div class="form-group" [class.has-error]="emailField.invalid && emailField.touched">
+        <label for="Email">Email</label>
+        <input type="text" name="Email" id="Email" required email class="form-control" [(ngModel)]="empCreate.Email" #emailField="ngModel" />
+        <span class="text-danger" *ngIf="emailField.errors?.required && emailField.touched">Email is required</span>
+        <span class="text-danger" *ngIf="emailField.errors?.email && emailField.touched">Please enter valid email address</span>
+      </div>
+      <div class="form-group" [class.has-error]="departmentField.invalid && departmentField.touched">
+        <label for="Department">Department</label>
+        <select name="Department" id="Department" required class="form-control" [(ngModel)]="empCreate.Department" #departmentField="ngModel">
+          <option value="null" disabled>Choose your department</option>
+          <option value="0">None</option>
+          <option value="1">HR</option>
+          <option value="2">IT</option>
+          <option value="3">Payroll</option>
+        </select>
+        <span class="text-danger" *ngIf="departmentField.errors?.required && departmentField.touched">Department is required</span>
+      </div>
+      <div class="form-group">
+        <label for="Photo">Photo</label>
+        <input type="file" accept="image/*" #fileInput
+               id="file" class="form-control  form-control-file"
+               (change)="handleFileInput($event.target.files)">
+        <img [src]="imageUrl" style="height:200px;width:250px;" />
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="crateEmployeeForm.invalid">Create</button>
+    </form>
+  </div>
+</div>

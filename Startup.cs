@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using SecondCoreApp.Models;
 
 namespace SecondCoreApp
@@ -46,7 +48,8 @@ namespace SecondCoreApp
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddJsonOptions(options =>  options.SerializerSettings.ContractResolver= new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
+
             services.AddAuthorization(option =>
             {
                 option.AddPolicy("DeleteRole", policy => policy.RequireClaim("Delete Role"));
@@ -59,6 +62,8 @@ namespace SecondCoreApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

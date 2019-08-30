@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { IEmployee } from './employee';
+import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employe-list',
@@ -10,7 +10,7 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./employe-list.component.css']
 })
 export class EmployeListComponent implements OnInit {
-  employees: IEmployee[];
+  employees: Employee[];
   constructor(private http: HttpClient, private employeeService: EmployeeService, private router: Router) {
 
   }

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Login } from '../login';
 import { LoginService } from '../login.service';
-import { debug } from 'util';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { AppComponent } from '../../app.component';
+ 
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   loginModel: Login = new Login();
   serverSideErrors: string[] = new Array();
-  constructor(private service: LoginService, private router: Router) { }
+
+  constructor(private service: LoginService, private router: Router, private cookieService: CookieService, private appComp: AppComponent) { }
 
   ngOnInit() {
   }
@@ -23,16 +26,20 @@ export class LoginComponent implements OnInit {
     this.service.Login(this.loginModel).subscribe(x => {
       if (x.succeeded) {
         localStorage.setItem('IsLoggedIn', "true");
-        this.service.isloggedin = false;
-
-        this.router.navigate(['list']);
+        localStorage.setItem('LoggedInUserName', x.user.userName);
+        this.appComp.isLoggedIn = true;
+        this.appComp.userName = x.user.userName;
+        this.router.navigate(['/']);
       }
       else {
-        for (var i = 0; i < x[""].errors.length; i++) {
-          this.serverSideErrors.push(x[""].errors[i].errorMessage);
+        for (var i = 0; i < x.errors.length; i++) {
+          this.serverSideErrors.push(x.errors[i].errorMessage);
         }
+        this.appComp.isLoggedIn = false;
+        this.appComp.userName = '';
         localStorage.removeItem('IsLoggedIn');
-        this.service.isloggedin = true;
+        localStorage.removeItem('LoggedInUserName')
+        
       }
     }, error => {
       console.log(error);

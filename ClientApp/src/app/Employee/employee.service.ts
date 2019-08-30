@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { IEmployee } from './Employee';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Employee } from './Employee';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class EmployeeService implements OnInit  {
 
-  private employees: IEmployee[];
+  private employees: Employee[];
 
   constructor(private http: HttpClient) {
   }
@@ -17,8 +17,15 @@ export class EmployeeService implements OnInit  {
   ngOnInit() {
   }
 
-  public GetEmployees(): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>('api/EmployeeService');
+  public GetEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>('api/EmployeeService');
   }
+
+  public CreateEmployees(formData: FormData): Observable<Employee> {
+    //console.log(formData);
+    return this.http.post<Employee>('api/EmployeeService/CreateEmployee', formData);
+
+  }
+   
 
 }

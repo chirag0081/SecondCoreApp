@@ -1,20 +1,16 @@
-import { Component } from '@angular/core';
-import { LoginService } from './Account/login.service'
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Employee';
-  constructor(private service: LoginService, private router: Router) {
-    //service.isloggedin = true;
-    //localStorage.removeItem('IsLoggedIn');
+  isLoggedIn: boolean = false;
+  userName: string = '';
+  constructor() {
+   
   }
-
-  Logout() {
-    this.service.Logout().subscribe(x => { this.service.isloggedin = true; localStorage.removeItem('IsLoggedIn'); this.router.navigate(['/login']); }, error => { console.log(error); })
-  }
-
+  ngOnInit(): void { }
+  
 }
