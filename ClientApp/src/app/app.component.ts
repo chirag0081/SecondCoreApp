@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Employee';
+  title = 'Angular Application';
   isLoggedIn: boolean = false;
   userName: string = '';
   constructor() {

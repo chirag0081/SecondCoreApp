@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Employee } from './Employee';
 import { Observable } from 'rxjs';
+import { Appsettings } from '../appsettings';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class EmployeeService implements OnInit  {
   }
 
   public GetEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>('http://localhost:51920/api/EmployeeService');
+    return this.http.get<Employee[]>(Appsettings.API_ENDPOINT + '/EmployeeService');
   }
 
   public CreateEmployees(formData: FormData): Observable<Employee> {
     //console.log(formData);
-    return this.http.post<Employee>('http://localhost:51920/api/EmployeeService/CreateEmployee', formData);
+    return this.http.post<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/CreateEmployee', formData);
 
   }
    

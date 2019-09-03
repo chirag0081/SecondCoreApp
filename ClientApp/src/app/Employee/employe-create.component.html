@@ -5,13 +5,15 @@
     </div>
 
     <form method="post" enctype="multipart/form-data" #crateEmployeeForm="ngForm" (ngSubmit)="OnFormSubmit(crateEmployeeForm)">
-      <div class="form-group row" [class.has-error]="empCreate.invalid && empCreate.touched">
+
+      <div class="form-group row" [class.is-invalid]="nameField.invalid && nameField.touched">
         <label for="Name" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
           <input type="text" name="Name" id="Name" required class="form-control" [(ngModel)]="empCreate.Name" #nameField="ngModel" />
           <span class="text-danger" *ngIf="nameField.errors?.required && nameField.touched">Name is required</span>
         </div>
       </div>
+
       <div class="form-group row" [class.has-error]="emailField.invalid && emailField.touched">
         <label for="Email" class="col-sm-2 col-form-label">Email</label>
         <div class="col-sm-10">
@@ -20,7 +22,7 @@
           <span class="text-danger" *ngIf="emailField.errors?.email && emailField.touched">Please enter valid email address</span>
         </div>
       </div>
-      <div class="form-group row" [class.has-error]="departmentField.invalid && departmentField.touched">
+      <div class="form-group row" [class.has-danger]="departmentField.invalid && departmentField.touched">
         <label for="Department" class="col-sm-2 col-form-label">Department</label>
         <div class="col-sm-10">
           <select name="Department" id="Department" required class="form-control custom-select" [(ngModel)]="empCreate.Department" #departmentField="ngModel">

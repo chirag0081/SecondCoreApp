@@ -21,16 +21,26 @@ namespace SecondCoreApp
     public class Startup
     {
         private IConfiguration _config;
+        private readonly IHostingEnvironment hostingEnvironment;
+        private string _contentRootPath = "";
 
-        public Startup(IConfiguration config)
+        public Startup(IConfiguration config,IHostingEnvironment hostingEnvironment)
         {
             _config = config;
+            this.hostingEnvironment = hostingEnvironment;
+            _contentRootPath = hostingEnvironment.ContentRootPath;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("EmployeeDBConnection")));
+            string conn = _config.GetConnectionString("EmployeeDBConnection");
+            if (conn.Contains("%CONTENTROOTPATH%"))
+            {
+                conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
+            }
+
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(conn));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -89,7 +99,7 @@ namespace SecondCoreApp
                 app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
-
+            
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
