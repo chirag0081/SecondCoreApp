@@ -21,26 +21,32 @@ namespace SecondCoreApp
     public class Startup
     {
         private IConfiguration _config;
-        private readonly IHostingEnvironment hostingEnvironment;
-        private string _contentRootPath = "";
+        private readonly IHostingEnvironment _hostingEnvironment;
+        
 
-        public Startup(IConfiguration config,IHostingEnvironment hostingEnvironment)
+        public string DBConnectionString
+        {
+            get
+            {
+                string conn = _config.GetConnectionString("EmployeeDBConnection");
+                if (!string.IsNullOrEmpty(conn) && conn.Contains("|DataDirectory|"))
+                    conn = conn.Replace("|DataDirectory|", _hostingEnvironment.ContentRootPath + "\\App_Data");
+
+                return conn;
+            }
+        }
+        public Startup(IConfiguration config, IHostingEnvironment hostingEnvironment)
         {
             _config = config;
-            this.hostingEnvironment = hostingEnvironment;
-            _contentRootPath = hostingEnvironment.ContentRootPath;
+            _hostingEnvironment = hostingEnvironment;
+
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string conn = _config.GetConnectionString("EmployeeDBConnection");
-            if (conn.Contains("%CONTENTROOTPATH%"))
-            {
-                conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
-            }
 
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(conn));
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(DBConnectionString));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -68,7 +74,7 @@ namespace SecondCoreApp
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddJsonOptions(options =>  options.SerializerSettings.ContractResolver= new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
+            }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
 
             services.AddAuthorization(option =>
             {
@@ -84,7 +90,7 @@ namespace SecondCoreApp
             });
             services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-             
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,7 +105,7 @@ namespace SecondCoreApp
                 app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
-            
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
