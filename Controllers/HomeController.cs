@@ -21,7 +21,7 @@ namespace SecondCoreApp.Controllers
             _employeeRepository = employeeRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
-        sdffs
+        
         public IActionResult Index()
         {
             var model = _employeeRepository.GetAllEmployee();
