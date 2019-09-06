@@ -22,15 +22,23 @@ namespace SecondCoreApp
     {
         private IConfiguration _config;
         private readonly IHostingEnvironment _hostingEnvironment;
-        
+
 
         public string DBConnectionString
         {
             get
             {
-                string conn = _config.GetConnectionString("EmployeeDBConnection");
-                if (!string.IsNullOrEmpty(conn) && conn.Contains("|DataDirectory|"))
-                    conn = conn.Replace("|DataDirectory|", _hostingEnvironment.ContentRootPath + "\\App_Data");
+                string conn = string.Empty;
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    conn = _config.GetConnectionString("EmployeeDBConnection_Dev");
+                    if (!string.IsNullOrEmpty(conn) && conn.Contains("|DataDirectory|"))
+                        conn = conn.Replace("|DataDirectory|", _hostingEnvironment.ContentRootPath + "\\App_Data");
+                }
+                else if (_hostingEnvironment.IsProduction())
+                {
+                    conn = _config.GetConnectionString("EmployeeDBConnection_Prod");
+                }
 
                 return conn;
             }
