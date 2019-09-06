@@ -27,11 +27,13 @@ export class NavbarComponent implements OnInit {
 
   Logout() {
     this.service.Logout().subscribe(x => {
+
       localStorage.removeItem('IsLoggedIn');
       localStorage.removeItem('LoggedInUserName');
       this.appComp.isLoggedIn = false;
       this.appComp.userName = '';
       this.router.navigate(['/login']);
+
     },
       error => {
         console.log(error);
