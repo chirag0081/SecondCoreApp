@@ -13,7 +13,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   public Login(login: Login): Observable<any> {
-    return this.http.post<any>(Appsettings.API_ENDPOINT + '/accountapi/login', { email: login.Email, password: login.Password, isRemember: login.IsRember }, { headers: { 'Content-Type':'application/json' } });
+    return this.http.post<any>(Appsettings.API_ENDPOINT + '/accountapi/login', { email: login.Email, password: login.Password, isRemember: login.IsRemember }, { headers: { 'Content-Type':'application/json' } });
   }
   public Logout(): Observable<any> {    
     return this.http.post<any>(Appsettings.API_ENDPOINT + '/accountapi/logout','', { headers: { 'Content-Type': 'application/json' } });

@@ -11,7 +11,7 @@ import { AppComponent } from '../app.component';
 export class NavbarComponent implements OnInit {
  
 
-  constructor(private service: LoginService, private router: Router, private appComp: AppComponent) {
+  constructor(private service: LoginService, private router: Router, public appComp: AppComponent) {
     if (localStorage.getItem('IsLoggedIn') === "true") {
       this.appComp.isLoggedIn = true;
       this.appComp.userName = localStorage.getItem('LoggedInUserName');
