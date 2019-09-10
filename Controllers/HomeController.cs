@@ -25,6 +25,7 @@ namespace SecondCoreApp.Controllers
         public IActionResult Index()
         {
             var model = _employeeRepository.GetAllEmployee();
+
             return View(model);
         }
 
