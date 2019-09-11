@@ -23,7 +23,6 @@ namespace SecondCoreApp
         private IConfiguration _config;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-
         public string DBConnectionString
         {
             get
