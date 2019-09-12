@@ -355,7 +355,8 @@ namespace SecondCoreApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy ="DeleteRole")]
+        //[Authorize(Policy ="DeleteRole")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);

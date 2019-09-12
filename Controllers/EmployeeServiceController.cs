@@ -38,7 +38,6 @@ namespace SecondCoreApp.Controllers
 
         [HttpPost, DisableRequestSizeLimit]
         [Route("CreateEmployee")]
-        [Authorize]
         public IActionResult Create([FromForm]EmployeeCreateViewModel model)
         {
             if (ModelState.IsValid)

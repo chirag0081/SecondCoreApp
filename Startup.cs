@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +15,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using SecondCoreApp.Models;
 
@@ -77,18 +80,48 @@ namespace SecondCoreApp
                     .AllowCredentials());
             });
 
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
+            
 
-            services.AddAuthorization(option =>
+            if (!string.IsNullOrEmpty(_config["AppToRun"]) && _config["AppToRun"].ToUpper() == "MVC")
             {
-                option.AddPolicy("DeleteRole", policy => policy.RequireClaim("Delete Role"));
-                option.AddPolicy("CreateRole", policy => policy.RequireClaim("Create Role"));
-                option.AddPolicy("EditRole", policy => policy.RequireClaim("Edit Role"));
-            });
+                services.AddMvc(options =>
+                {
+                    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+                services.AddAuthorization(option =>
+                {
+                    option.AddPolicy("DeleteRole", policy => policy.RequireClaim("Delete Role"));
+                    option.AddPolicy("CreateRole", policy => policy.RequireClaim("Create Role"));
+                    option.AddPolicy("EditRole", policy => policy.RequireClaim("Edit Role"));
+                });
+            }
+            else if (!string.IsNullOrEmpty(_config["AppToRun"]) && _config["AppToRun"].ToUpper() == "ANGULAR")
+            {
+                services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidIssuer = _config["Jwt:Issuer"],
+                        ValidAudience = _config["Jwt:Audience"],
+                    };
+                });
+
+                services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }
+
+             
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
             services.AddSpaStaticFiles(configuration =>
@@ -121,7 +154,7 @@ namespace SecondCoreApp
             app.UseMvc(routes =>
             {
                 if (!string.IsNullOrEmpty(_config["AppToRun"]) && _config["AppToRun"].ToUpper() == "ANGULAR")
-                    routes.MapRoute("default", "{controller=Home1}/{action=Index1}/{id?}");
+                    routes.MapRoute("default", "api/{controller}/{action}/{id?}");
                 else
                     routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });

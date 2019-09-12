@@ -5,7 +5,7 @@ import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from '../../app.component';
- 
+
 
 @Component({
   selector: 'app-login',
@@ -23,23 +23,24 @@ export class LoginComponent implements OnInit {
   }
 
   OnLoginFormSubmit(loginForm: NgForm): void {
+    this.serverSideErrors = new Array();
     this.service.Login(this.loginModel).subscribe(x => {
+      console.log(JSON.stringify(x));
       if (x.succeeded) {
-        localStorage.setItem('IsLoggedIn', "true");
-        localStorage.setItem('LoggedInUserName', x.user.userName);
-        this.appComp.isLoggedIn = true;
-        this.appComp.userName = x.user.userName;
+        localStorage.setItem('Token', x.Token);
+        localStorage.setItem('LoggedInUser', JSON.stringify(x.user));
+        localStorage.setItem('LoggedInUserRoles', JSON.stringify(x.roles));
         this.router.navigate(['/']);
       }
       else {
+       
         for (var i = 0; i < x.errors.length; i++) {
-          this.serverSideErrors.push(x.errors[i].errorMessage);
+          this.serverSideErrors.push(x.errors[i]);
         }
-        this.appComp.isLoggedIn = false;
-        this.appComp.userName = '';
-        localStorage.removeItem('IsLoggedIn');
-        localStorage.removeItem('LoggedInUserName')
-        
+        console.log(JSON.stringify(this.serverSideErrors));
+        localStorage.removeItem('Token');
+        localStorage.removeItem('LoggedInUser');
+        localStorage.removeItem('LoggedInUserRoles');
       }
     }, error => {
       console.log(error);

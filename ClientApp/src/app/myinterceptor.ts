@@ -1,35 +1,46 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { tap } from "rxjs/operators";
+import { tap, catchError, map, finalize } from "rxjs/operators";
+import { Router } from '@angular/router';
 
 export class Myinterceptor implements HttpInterceptor {
+  constructor(private router: Router) {
 
+  }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const updatedRequest = req.clone({
 
-      headers: req.headers.set("Authorization", "Some-dummyCode")
-
+    const authReq = req.clone({
+      headers: new HttpHeaders({
+        //'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+      })
     });
-    console.log("Before making api call : ");
-    
-    return next.handle(req).pipe(
-      tap(
-        event => {
-          if (event instanceof HttpResponse) {
-            console.log("api call success :", event);
-          }
-        },
 
+    return next.handle(authReq).pipe(
+      tap(event => {
+        status = '';
+        if (event instanceof HttpResponse) {
+          status = 'succeeded';
+        }
+      },
         error => {
-          if (event instanceof HttpResponse) {
-            debugger;
-            console.log("api call error :", event);
-
+          status = 'failed'
+          if (error instanceof HttpErrorResponse) {
+            if (error.status == 401 && error.statusText == "Unauthorized") {
+              this.router.navigate(['/login']);
+              
+            }
           }
         }
-      )
+      ),
+      finalize(() => {
+        const message = req.method + " " + req.urlWithParams + " " + status;
+      })
     );
+
+
+
   }
 
 }

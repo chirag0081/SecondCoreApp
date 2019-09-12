@@ -33,7 +33,6 @@ export class EmployeCreateComponent implements OnInit {
     formData.append("Photo", this.empCreate.Photo);
 
     this.service.CreateEmployees(formData).subscribe(x => {
-      debugger;
       if (x.Id > 0) {
         this.toastr.success("Employee Created Successfully");
         this.imageUrl = '';

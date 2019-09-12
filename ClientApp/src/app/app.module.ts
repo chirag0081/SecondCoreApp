@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RegisterComponent } from './Account/register.component';
+import { Appsettings } from './appsettings';
 
 @NgModule({
   declarations: [
@@ -33,15 +34,19 @@ import { RegisterComponent } from './Account/register.component';
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
 
   ],
   providers: [AuthGuard,
     CookieService,
+    Appsettings,
     NavbarComponent
-    //,{provide: HTTP_INTERCEPTORS,
-    //  useClass: Myinterceptor,
-    //  multi: true}
+    , {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Myinterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

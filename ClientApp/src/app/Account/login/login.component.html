@@ -21,13 +21,15 @@
           </label>
         </div>
       </div>
-
-      <div class="form-group" *ngIf="serverSideErrors != null" >
+      <div class="form-group" *ngIf="serverSideErrors != null && serverSideErrors.length > 0">
         <span class="text-danger" *ngFor="let error of serverSideErrors">
           {{error}}
         </span>
       </div>
+      <br />
+
       <button type="submit" class="btn btn-primary" [disabled]="loginForm.touched && loginForm.invalid">Login</button>
     </form>
   </div>
 </div>
+ 
