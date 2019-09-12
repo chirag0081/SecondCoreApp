@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 
 import { tap, catchError, map, finalize } from "rxjs/operators";
 import { Router } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
 
 export class Myinterceptor implements HttpInterceptor {
-  constructor(private router: Router) {
+  constructor(private router: Router, private navBar: NavbarComponent) {
 
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -28,6 +29,10 @@ export class Myinterceptor implements HttpInterceptor {
           status = 'failed'
           if (error instanceof HttpErrorResponse) {
             if (error.status == 401 && error.statusText == "Unauthorized") {
+              this.navBar.userName = '';
+              localStorage.removeItem('Token');
+              localStorage.removeItem('LoggedInUser');
+              localStorage.removeItem('LoggedInUserRoles');
               this.router.navigate(['/login']);
               
             }
