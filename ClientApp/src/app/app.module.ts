@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RegisterComponent } from './Account/register.component';
 import { Appsettings } from './appsettings';
+import { LoaderComponent } from './loader.component';
+import { LoaderService } from './loader.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { Appsettings } from './appsettings';
     EmployeCreateComponent,
     LoginComponent,
     NavbarComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -35,12 +38,13 @@ import { Appsettings } from './appsettings';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
-    
+
 
   ],
   providers: [AuthGuard,
     CookieService,
     Appsettings,
+    LoaderService,
     NavbarComponent
     , {
       provide: HTTP_INTERCEPTORS,
