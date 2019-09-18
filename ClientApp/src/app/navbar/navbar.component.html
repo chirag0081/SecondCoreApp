@@ -31,7 +31,7 @@
     <ul class="navbar-nav ml-auto" *ngIf="appSetting.localStorageItem('LoggedInUser') !== null">
       <li class="nav-item">
         <a class="nav-link" href="javascript:void(0);" role="button" (click)="Logout();">
-          Logout {{userName}}
+          Logout {{appSetting.getUserName()}}
         </a>
       </li>
     </ul>

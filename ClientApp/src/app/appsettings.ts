@@ -10,4 +10,10 @@ export class Appsettings {
     return localStorage.getItem(id);
   }
 
+  public getUserName() {
+    if (localStorage.getItem('LoggedInUser') !== null) {
+      return JSON.parse(localStorage.getItem('LoggedInUser')).userName;
+    }
+  }
+
 }

@@ -4,7 +4,6 @@ import { Login } from '../login';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { NavbarComponent } from '../../navbar/navbar.component';
 
 
 @Component({
@@ -17,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginModel: Login = new Login();
   serverSideErrors: string[] = new Array();
 
-  constructor(private service: LoginService, private router: Router, private cookieService: CookieService, private appComp: NavbarComponent) { }
+  constructor(private service: LoginService, private router: Router, private cookieService: CookieService) { }
 
   ngOnInit() {
   }
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('Token', x.Token);
         localStorage.setItem('LoggedInUser', JSON.stringify(x.user));
         localStorage.setItem('LoggedInUserRoles', JSON.stringify(x.roles));
-        this.appComp.userName = JSON.parse(localStorage.getItem('LoggedInUser')).userName;
         this.router.navigate(['/']);
       }
       else {
