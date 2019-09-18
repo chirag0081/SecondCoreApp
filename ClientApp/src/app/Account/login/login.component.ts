@@ -18,8 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private service: LoginService, private router: Router, private cookieService: CookieService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   OnLoginFormSubmit(loginForm: NgForm): void {
     this.serverSideErrors = new Array();
