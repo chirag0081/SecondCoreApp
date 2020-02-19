@@ -27,6 +27,10 @@ export class EmployeeService implements OnInit  {
     return this.http.post<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/CreateEmployee', formData);
 
   }
-   
+  public GetEmployee(id: number): Observable<Employee> {
+    //console.log(formData);
+    return this.http.get<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/'+ id);
+
+  }
 
 }

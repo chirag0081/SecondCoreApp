@@ -36,6 +36,14 @@ namespace SecondCoreApp.Controllers
             return model;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public Employee GetEmployee(int id)
+        {
+            var model = _employeeRepository.GetEmployee(id);
+            return model;
+        }
+
         [HttpPost, DisableRequestSizeLimit]
         [Route("CreateEmployee")]
         public IActionResult Create([FromForm]EmployeeCreateViewModel model)

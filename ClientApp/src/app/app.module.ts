@@ -19,6 +19,7 @@ import { RegisterComponent } from './Account/register.component';
 import { Appsettings } from './appsettings';
 import { LoaderComponent } from './loader.component';
 import { LoaderService } from './loader.service';
+import { EmployeeDetailComponent } from './Employee/employee-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoaderService } from './loader.service';
     LoginComponent,
     NavbarComponent,
     RegisterComponent,
-    LoaderComponent
+    LoaderComponent,
+    EmployeeDetailComponent
   ],
   imports: [
     BrowserModule,
