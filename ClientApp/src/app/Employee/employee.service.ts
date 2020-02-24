@@ -8,7 +8,7 @@ import { Appsettings } from '../appsettings';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService implements OnInit  {
+export class EmployeeService implements OnInit {
 
   private employees: Employee[];
 
@@ -29,8 +29,12 @@ export class EmployeeService implements OnInit  {
   }
   public GetEmployee(id: number): Observable<Employee> {
     //console.log(formData);
-    return this.http.get<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/'+ id);
+    return this.http.get<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/' + id);
 
+  }
+  public EditEmployee(id: number, emp: FormData): Observable<Employee> {
+    //console.log(formData);
+    return this.http.put<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/EditEmployee/' + id, emp);
   }
 
 }
