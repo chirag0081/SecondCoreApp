@@ -37,4 +37,10 @@ export class EmployeeService implements OnInit {
     return this.http.put<Employee>(Appsettings.API_ENDPOINT + '/EmployeeService/EditEmployee/' + id, emp);
   }
 
+
+  public DeleteEmployee(id: number): Observable<string> {
+    //console.log(formData);
+    return this.http.delete<string>(Appsettings.API_ENDPOINT + '/EmployeeService/DeleteEmployee/' + id);
+  }
+
 }

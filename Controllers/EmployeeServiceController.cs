@@ -94,6 +94,26 @@ namespace SecondCoreApp.Controllers
 
         }
 
+        [HttpDelete, DisableRequestSizeLimit]
+        [Route("DeleteEmployee/{Id}")]
+        public IActionResult DeleteEmployee(int Id)
+        {
+
+            Employee emp = _employeeRepository.GetEmployee(Id);
+
+            if (emp == null)
+            {
+                return NotFound("No Employee Found with Id: " + Id);
+            }
+
+
+            _employeeRepository.Delete(Id);
+
+            return Ok("Employee Deleted Successfully");
+
+
+        }
+
 
         private string ProcessUploadedFile(EmployeeCreateViewModel model)
         {
