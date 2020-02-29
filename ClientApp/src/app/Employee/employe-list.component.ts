@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employe-list',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class EmployeListComponent implements OnInit {
   employees: Employee[];
-  constructor(private http: HttpClient, private employeeService: EmployeeService, private router: Router) {
+  constructor(private http: HttpClient, private employeeService: EmployeeService, private router: Router, private toastr: ToastrService) {
 
   }
 
@@ -25,4 +26,11 @@ export class EmployeListComponent implements OnInit {
     this.router.navigate(['detail', id]);
   }
 
+  EditEmployee(id: number) {
+    this.router.navigate(['edit', id]);
+  }
+
+  DeleteEmployee(id: number) {
+    this.employeeService.DeleteEmployee(id).subscribe(x => { console.log(x); }, err => { console.log('error: ' + err) });
+  }
 }

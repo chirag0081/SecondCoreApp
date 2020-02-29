@@ -20,6 +20,8 @@ import { Appsettings } from './appsettings';
 import { LoaderComponent } from './loader.component';
 import { LoaderService } from './loader.service';
 import { EmployeeDetailComponent } from './Employee/employee-detail.component';
+import { EmployeeEditComponent } from './Employee/employe-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { EmployeeDetailComponent } from './Employee/employee-detail.component';
     NavbarComponent,
     RegisterComponent,
     LoaderComponent,
-    EmployeeDetailComponent
+    EmployeeDetailComponent,
+    EmployeeEditComponent
   ],
   imports: [
     BrowserModule,

@@ -9,9 +9,9 @@
       <img class="card-img-top imageThumbnail" style="width:250px;height:200px" src="/images/{{employee.PhotoPath ? employee.PhotoPath :'noimage.png'}}" asp-append-version="true" />
     </div>
     <div class="card-footer text-center">
-        <button class="btn btn-primary" (click)="ViewDetail(employee.Id)" >View</button>
-        <button class="btn btn-primary">Edit</button>
-        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-primary" (click) = "ViewDetail(employee.Id)" >View</button>
+        <button class="btn btn-primary" (click) = "EditEmployee(employee.Id)">Edit</button>
+        <button class="btn btn-danger"  (click) = "DeleteEmployee(employee.Id)" >Delete</button>
     </div>
   </div>
 

@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-12">
+    <br />
+    <br />
+    <form method="post" enctype="multipart/form-data" #editEmployeeForm="ngForm" (ngSubmit)="OnFormSubmit(editEmployeeForm)">
+
+      <div class="form-group row" [class.is-invalid]="nameField.invalid && nameField.touched">
+        <label for="Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input type="text" name="Name" id="Name" required class="form-control" [(ngModel)]="empEdit.Name" #nameField="ngModel" />
+          <span class="text-danger" *ngIf="nameField.errors?.required && nameField.touched">Name is required</span>
+        </div>
+      </div>
+
+      <div class="form-group row" [class.has-error]="emailField.invalid && emailField.touched">
+        <label for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="text" name="Email" id="Email" required email class="form-control" [(ngModel)]="empEdit.Email" #emailField="ngModel" />
+          <span class="text-danger" *ngIf="emailField.errors?.required && emailField.touched">Email is required</span>
+          <span class="text-danger" *ngIf="emailField.errors?.email && emailField.touched">Please enter valid email address</span>
+        </div>
+      </div>
+      <div class="form-group row" [class.has-danger]="departmentField.invalid && departmentField.touched">
+        <label for="Department" class="col-sm-2 col-form-label">Department</label>
+        <div class="col-sm-10">
+          <select name="Department" id="Department" required class="form-control custom-select" [(ngModel)]="empEdit.Department" #departmentField="ngModel">
+            <option value="null" disabled>Choose your department</option>
+            <option value="0">None</option>
+            <option value="1">HR</option>
+            <option value="2">IT</option>
+            <option value="3">Payroll</option>
+          </select>
+          <span class="text-danger" *ngIf="departmentField.errors?.required && departmentField.touched">Department is required</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="Photo" class="col-sm-2 col-form-label">Photo</label>
+        <div class="col-sm-10">
+          <div class="custom-file">
+            <input type="file" accept="image/*" #fileInput
+                   id="file" class="form-control custom-file-input"
+                   (change)="handleFileInput($event.target.files)">
+            <label class="custom-file-label">Choose File...</label>
+          </div>
+          <div style="margin-top:10px;">
+            <img src="/images/{{empEdit.PhotoPath ? empEdit.PhotoPath :'noimage.png'}}" style="height:200px;" />
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="editEmployeeForm.invalid">Save</button>
+    </form>
+  </div>
+</div>

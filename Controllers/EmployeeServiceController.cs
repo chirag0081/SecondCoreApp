@@ -68,6 +68,52 @@ namespace SecondCoreApp.Controllers
 
         }
 
+        [HttpPut, DisableRequestSizeLimit]
+        [Route("EditEmployee/{Id}")]
+        public IActionResult EditEmployee(int Id, [FromForm]EmployeeEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee emp = _employeeRepository.GetEmployee(Id);
+
+                emp.Name = model.Name;
+                emp.Email = model.Email;
+                emp.Department = model.Department;
+                if (model.Photo != null)
+                {
+                    string uniqueFileName = ProcessUploadedFile(model);
+                    emp.PhotoPath = uniqueFileName;
+                }
+
+                _employeeRepository.Update(emp);
+
+                return Ok(emp);
+            }
+
+            return Ok(model);
+
+        }
+
+        [HttpDelete, DisableRequestSizeLimit]
+        [Route("DeleteEmployee/{Id}")]
+        public IActionResult DeleteEmployee(int Id)
+        {
+
+            Employee emp = _employeeRepository.GetEmployee(Id);
+
+            if (emp == null)
+            {
+                return NotFound("No Employee Found with Id: " + Id);
+            }
+
+
+            _employeeRepository.Delete(Id);
+
+            return Ok("Employee Deleted Successfully");
+
+
+        }
+
 
         private string ProcessUploadedFile(EmployeeCreateViewModel model)
         {
