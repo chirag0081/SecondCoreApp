@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../loader.service';
+declare let $: any;
 
 @Component({
   selector: 'app-employe-list',
@@ -12,14 +14,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EmployeListComponent implements OnInit {
   employees: Employee[];
-  constructor(private http: HttpClient, private employeeService: EmployeeService, private router: Router, private toastr: ToastrService) {
+  @ViewChild('closeBtn', { static: false }) closeBtn: ElementRef;
+
+  constructor(private http: HttpClient, private employeeService: EmployeeService,
+    private router: Router, private toastr: ToastrService, private loaderService: LoaderService) {
 
   }
 
   ngOnInit() {
-    this.employeeService.GetEmployees().subscribe(x => { this.employees = x; }, error => {
-      console.log(error);
-    });
+    this.loaderService.show();
+    this.employeeService.GetEmployees().subscribe(
+      x => { this.employees = x; this.loaderService.hide(); },
+      error => { console.log(error); this.loaderService.hide(); }
+    );
   }
 
   ViewDetail(id: number) {
@@ -31,6 +38,31 @@ export class EmployeListComponent implements OnInit {
   }
 
   DeleteEmployee(id: number) {
-    this.employeeService.DeleteEmployee(id).subscribe(x => { console.log(x); }, err => { console.log('error: ' + err) });
+    this.loaderService.show();
+
+    //$('#closeModel').click();
+
+    this.employeeService.DeleteEmployee(id)
+      .subscribe(
+        x => {
+
+          this.toastr.success(x.Message);
+          console.log("Sucess: " + JSON.stringify(x));
+          this.employees.splice(this.employees.findIndex(x => x.Id == id), 1);
+          this.loaderService.hide();
+
+
+          $(this.closeBtn.nativeElement).click();
+          $('div.modal-backdrop').css('display', 'none');
+
+
+        },
+        err => {
+          console.log('error: ' + JSON.stringify(err));
+          this.toastr.success(err.Message);
+          this.loaderService.hide();
+        }
+      );
   }
+
 }

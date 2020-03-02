@@ -66,7 +66,7 @@ namespace SecondCoreApp.Controllers
                         issuer: _config["Jwt:Issuer"],
                         audience: _config["Jwt:Audience"],
                         claims: userClaims,
-                        expires: DateTime.Now.AddMinutes(3),
+                        expires: DateTime.Now.AddMinutes(10),
                         signingCredentials: signinCredentials
                     );
 

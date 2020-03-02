@@ -103,13 +103,13 @@ namespace SecondCoreApp.Controllers
 
             if (emp == null)
             {
-                return NotFound("No Employee Found with Id: " + Id);
+                return NotFound(new { Status = false, Message = "No Employee Found with Id: " + Id });
             }
 
 
-            _employeeRepository.Delete(Id);
+           // _employeeRepository.Delete(Id);
 
-            return Ok("Employee Deleted Successfully");
+            return Ok(new { Status = true, Message = "Employee Deleted Successfully" });
 
 
         }

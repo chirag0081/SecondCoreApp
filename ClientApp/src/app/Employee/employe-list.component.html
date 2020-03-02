@@ -6,13 +6,39 @@
     </div>
 
     <div style="text-align:center;">
-      <img class="card-img-top imageThumbnail" style="width:250px;height:200px" src="/images/{{employee.PhotoPath ? employee.PhotoPath :'noimage.png'}}" asp-append-version="true" />
+      <img class="card-img-top imageThumbnail" style="width:250px;height:200px" src="/images/{{employee.PhotoPath ? employee.PhotoPath :'noimage.png'}}"
+           asp-append-version="true" />
     </div>
     <div class="card-footer text-center">
-        <button class="btn btn-primary" (click) = "ViewDetail(employee.Id)" >View</button>
-        <button class="btn btn-primary" (click) = "EditEmployee(employee.Id)">Edit</button>
-        <button class="btn btn-danger"  (click) = "DeleteEmployee(employee.Id)" >Delete</button>
+      <button class="btn btn-primary" (click)="ViewDetail(employee.Id)">View</button>
+      <button class="btn btn-primary" (click)="EditEmployee(employee.Id)">Edit</button>
+      <button class="btn btn-danger" data-toggle="modal" [attr.data-target]="'#DeleteConfirmationModel' + employee.Id">Delete</button>
     </div>
+
+    <div [attr.id]="'DeleteConfirmationModel' + employee.Id" class="modal fade" role="dialog" >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" #closeBtn id="closeModel" class="close" data-dismiss="modal" >&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete employee <b>{{employee.Name}}</b> record?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" (click)="DeleteEmployee(employee.Id)">Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
+
+
+
+
+
 
 </div>
