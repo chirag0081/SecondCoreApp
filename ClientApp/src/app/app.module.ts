@@ -21,6 +21,7 @@ import { LoaderComponent } from './loader.component';
 import { LoaderService } from './loader.service';
 import { EmployeeDetailComponent } from './Employee/employee-detail.component';
 import { EmployeeEditComponent } from './Employee/employe-edit.component';
+import { StockAverageComponent } from './Stocks/stock-average.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { EmployeeEditComponent } from './Employee/employe-edit.component';
     RegisterComponent,
     LoaderComponent,
     EmployeeDetailComponent,
-    EmployeeEditComponent
+    EmployeeEditComponent,
+    StockAverageComponent
   ],
   imports: [
     BrowserModule,

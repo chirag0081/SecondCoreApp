@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-md-12 mt-3">
+    <form #formData="ngForm" class="form-inline" method="post" (ngSubmit) ="SaveDate(formData.value)">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInput">Stock Name</label>
+          <input type="text" name="stockname"  id="stockname" ngModel class="form-control mb-2" />
+        </div>
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInputGroup">Quantity</label>
+          <div class="input-group mb-2">
+            <input type="text" name="quantity"   id="quantity" ngModel  class="form-control" />
+          </div>
+        </div>
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInputGroup">Holding Price</label>
+          <div class="form-check mb-2">
+            <input type="text" name="holdingprice"   id="holdingprice" ngModel  class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInputGroup">Current Price</label>
+          <div class="form-check mb-2">
+            <input type="text" name="lasttradeprice" id="lasttradeprice"   ngModel  class="form-control" />
+          </div>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

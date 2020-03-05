@@ -7,6 +7,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './Account/register.component';
 import { EmployeeDetailComponent } from './Employee/employee-detail.component';
 import { EmployeeEditComponent } from './Employee/employe-edit.component';
+import { StockAverageComponent } from './Stocks/stock-average.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'create', component: EmployeCreateComponent, canActivate: [AuthGuard] },
   { path: 'edit/:id', component: EmployeeEditComponent, canActivate: [AuthGuard] },
   { path: 'detail/:id', component: EmployeeDetailComponent, canActivate: [AuthGuard] },
+  { path: 'stock', component: StockAverageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', redirectTo: '/list', pathMatch: 'full' },

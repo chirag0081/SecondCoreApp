@@ -44,7 +44,7 @@ export class EmployeListComponent implements OnInit {
 
     this.employeeService.DeleteEmployee(id)
       .subscribe(
-        x => {
+        (x:any) => {
 
           this.toastr.success(x.Message);
           console.log("Sucess: " + JSON.stringify(x));
