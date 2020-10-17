@@ -4,7 +4,9 @@ import { tap, finalize } from "rxjs/operators";
 import { Router } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoaderService } from './loader.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class Myinterceptor implements HttpInterceptor {
 
   constructor(private router: Router, private navBar: NavbarComponent, private loaderService: LoaderService) {}
